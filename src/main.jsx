@@ -11,6 +11,9 @@ import Home from './Component/Home.jsx';
 import Addnewcoffe from './Component/Addnewcoffe.jsx';
 import Detailspage from './Detailspage.jsx';
 import Updatepage from './Pages/Updatepage.jsx';
+import Signup from './Pages/Signup.jsx';
+import Login from './Pages/Login.jsx';
+import AuthContextProvider from './Context/ContextProvider.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +37,14 @@ const router = createBrowserRouter([
       path:"/updatecoffee/:id",
       Component:Updatepage,
       loader:({params})=>fetch(`/api/details/${params.id}`)
+    },
+    {
+      path:"/signup",
+      Component:Signup
+    },
+    {
+      path:"/login",
+      Component:Login
     }
   ]
   },
@@ -41,6 +52,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      <RouterProvider router={router} />
+     <AuthContextProvider>
+       <RouterProvider router={router} />
+     </AuthContextProvider>
   </StrictMode>,
 )
