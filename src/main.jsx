@@ -14,6 +14,7 @@ import Updatepage from './Pages/Updatepage.jsx';
 import Signup from './Pages/Signup.jsx';
 import Login from './Pages/Login.jsx';
 import AuthContextProvider from './Context/ContextProvider.jsx';
+import Profile from './Pages/Profile.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
     {
       path:"/login",
       Component:Login
+    },
+    {
+      path:"profile",
+      Component:Profile,
+      loader:()=>fetch("/api/profile")
     }
   ]
   },

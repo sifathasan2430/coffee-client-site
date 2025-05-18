@@ -1,9 +1,9 @@
-import { useState } from "react";
+
 import AuthContext from "./Context";
-import { onAuthStateChanged,createUserWithEmailAndPassword ,GoogleAuthProvider,signInWithPopup} from "firebase/auth";
+ import { onAuthStateChanged,createUserWithEmailAndPassword ,GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import Swal from "sweetalert2";
-
+// import {onAuthStateChanged} from "firebase/auth"
 const AuthContextProvider=({children})=>{
 
     const provider = new GoogleAuthProvider();
@@ -33,6 +33,7 @@ const signInWithGoogle=()=>{
   
   
     const user = result.user;
+    console.log(user)
    
    
   }).catch((error) => {
@@ -48,9 +49,14 @@ const signInWithGoogle=()=>{
     
   });
 }
+
+const signin=(email,password)=>{
+  return signInWithEmailAndPassword(auth, email, password)
+}
 const userAuthentication={
     createUser,
-    signInWithGoogle
+    signInWithGoogle,
+    signin
 }
       return (
         <AuthContext.Provider value={userAuthentication} >

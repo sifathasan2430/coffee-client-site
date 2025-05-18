@@ -2,7 +2,36 @@ import React, { useContext } from 'react';
 import AuthContext from '../Context/Context';
 
 const Login = () => {
-const {signInWithGoogle}=useContext(AuthContext)
+const {signInWithGoogle,signin}=useContext(AuthContext)
+const handler=(e)=>{
+  e.preventDefault()
+  const form=e.target
+  const formData=new FormData(form)
+  const useremail=formData.get("email")
+  const userpassword=formData.get("password")
+  signin(useremail,userpassword).then((userCredential) => {
+    
+    const user = userCredential.user;
+    alert('login successfully')
+    const obg={email:user?.email,
+      lastSignInTime:user?.metadata?.lastSignInTime
+
+
+    }
+    fetch("/api/user",{
+      method:"PATCH",
+      headers:{
+         "Content-Type": "application/json"
+      },
+      body:JSON.stringify(obg)
+    }).then(res=>res.json()).then(data=>console.log(data))
+
+  })
+  .catch((error) => {
+    
+    const errorMessage = error.message;
+    console.log(errorMessage)
+  }); }
     return (
         <div>
            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -18,7 +47,7 @@ const {signInWithGoogle}=useContext(AuthContext)
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handler} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                 Email address
@@ -82,6 +111,7 @@ const {signInWithGoogle}=useContext(AuthContext)
       </div>  
         </div>
     );
-};
+}
+
 
 export default Login;

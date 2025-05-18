@@ -19,19 +19,34 @@ e.preventDefault()
  const userdata=Object.fromEntries(formData.entries())
  const {email,password,...userinfo}=userdata
  
-
+// console.log(userinfo)
  
 // const userEmail=e.target.email.value
 // const userPassword=e.target.password.value
  createUser(email,password).then((userCredential) => {
      // Signed up 
      const user = userCredential.user;
+console.log(user)
+      const userdetailsdata={
+      
+        email,
+           ...userinfo,
+             creationTime:user?.metadata?.creationTime,
+        
+        lastLoginAt:user?.metadata?.lastLoginAt,
+         lastSignInTime:user?.metadata?.lastSignInTime
+
+
+
+      }
+      console.log(userdetailsdata)
      fetch("/api/users",{
       method:"POST",
       headers:{
         "Content-Type": "application/json",
       },
-      body:JSON.stringify(userinfo)
+      
+      body:JSON.stringify(userdetailsdata)
      }).then(res=>res.json()).then(data=> {
      if(data.insertedId){
        Swal.fire({
